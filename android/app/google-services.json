@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "734725616448",
+    "project_id": "goose-45eb8",
+    "storage_bucket": "goose-45eb8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:734725616448:android:6dd3c1e473517b20ac80a5",
+        "android_client_info": {
+          "package_name": "com.example.goose_assignment"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "734725616448-81vn32fcm9v56t9q434rnaa1lr4kadng.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7GgKQyDSE0Nw-LTCNef9DBXlLYTbPz3M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "734725616448-81vn32fcm9v56t9q434rnaa1lr4kadng.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "734725616448-rjb20io4neq9nnmffuok1c5rog9g5kmv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gooseAssignment"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
