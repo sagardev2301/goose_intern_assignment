@@ -35,7 +35,7 @@ class _PostItemScreenState extends State<PostItemScreen> {
     "Real Estate",
     "Sports",
   ];
-
+  
   final ImagePicker picker = ImagePicker();
   List<XFile>? imagesFileList = [];
 
@@ -116,113 +116,107 @@ class _PostItemScreenState extends State<PostItemScreen> {
                     const TextInputName(
                       name: 'Title*',
                     ),
-                    SizedBox(
-                      height: 80,
-                      child: TextFormField(
-                        focusNode: _focusNodes[0],
-                        style: Theme.of(context).textTheme.titleSmall,
-                        keyboardType: TextInputType.text,
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                                color: Colors.white54, width: 1),
-                          ),
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          fillColor: Colors.grey[800],
-                          hintText: 'Item Name',
-                          hintStyle: Theme.of(context).textTheme.displaySmall,
-                          contentPadding: const EdgeInsets.only(left: 10),
+                    TextFormField(
+                      focusNode: _focusNodes[0],
+                      style: Theme.of(context).textTheme.titleSmall,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(color: Colors.white54, width: 1),
                         ),
-                        onSaved: (newValue) {
-                          setState(() {
-                            itemName = newValue!;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Enter Item name';
-                          }
-                          return null;
-                        },
-                        onFieldSubmitted: (_) => _focusNodes[1].requestFocus(),
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        fillColor: Colors.grey[800],
+                        hintText: 'Item Name',
+                        hintStyle: Theme.of(context).textTheme.displaySmall,
+                        contentPadding: const EdgeInsets.only(left: 10),
                       ),
+                      onSaved: (newValue) {
+                        setState(() {
+                          itemName = newValue!;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Enter Item name';
+                        }
+                        return null;
+                      },
+                      onFieldSubmitted: (_) => _focusNodes[1].requestFocus(),
                     ),
                     const TextInputName(name: "Category*"),
-                    SizedBox(
-                      height: 80,
-                      child: DropdownButtonFormField2(
-                        focusNode: _focusNodes[1],
-                        value: selectedItem,
-                        hint: Text(
-                          'Select Item Cateogry',
-                          textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.displaySmall,
-                        ),
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                                color: Colors.white54, width: 1),
-                          ),
-                          contentPadding: const EdgeInsets.all(10),
-                          isDense: true,
-                          filled: true,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          fillColor: Colors.grey[800],
-                        ),
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please Select Item Category';
-                          }
-                          return null;
-                        },
-                        onMenuStateChange: (isOpen) {
-                          setState(() {
-                            isOpen = !isOpen;
-                          });
-                          _focusNodes[2].requestFocus();
-                        },
-                        onChanged: (value) {
-                          setState(() {
-                            selectedItem = value;
-                          });
-                        },
-                        onSaved: (value) {
-                          selectedItem = value.toString();
-                        },
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_drop_down,
-                            color: Colors.white,
-                          ),
-                          iconSize: 30,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          width: width * 0.92,
-                          direction: DropdownDirection.left,
-                          offset: const Offset(10, -15),
-                          decoration: BoxDecoration(
-                            color: Colors.grey[800],
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                        ),
-                        items: itemCategories
-                            .map(
-                              (item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: Theme.of(context).textTheme.titleSmall,
-                                ),
-                              ),
-                            )
-                            .toList(),
+                    DropdownButtonFormField2(
+                      focusNode: _focusNodes[1],
+                      value: selectedItem,
+                      hint: Text(
+                        'Select Item Cateogry',
+                        textAlign: TextAlign.left,
+                        style: Theme.of(context).textTheme.displaySmall,
                       ),
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(color: Colors.white54, width: 1),
+                        ),
+                        contentPadding: const EdgeInsets.all(10),
+                        isDense: true,
+                        filled: true,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        fillColor: Colors.grey[800],
+                      ),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please Select Item Category';
+                        }
+                        return null;
+                      },
+                      onMenuStateChange: (isOpen) {
+                        setState(() {
+                          isOpen = !isOpen;
+                        });
+                        _focusNodes[2].requestFocus();
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedItem = value;
+                        });
+                      },
+                      onSaved: (value) {
+                        selectedItem = value.toString();
+                      },
+                      iconStyleData: const IconStyleData(
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.white,
+                        ),
+                        iconSize: 30,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        width: width * 0.92,
+                        direction: DropdownDirection.left,
+                        offset: const Offset(10, -15),
+                        decoration: BoxDecoration(
+                          color: Colors.grey[800],
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                      ),
+                      items: itemCategories
+                          .map(
+                            (item) => DropdownMenuItem<String>(
+                              value: item,
+                              child: Text(
+                                item,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ),
+                          )
+                          .toList(),
                     ),
                     const TextInputName(name: "Description"),
                     SizedBox(
@@ -258,43 +252,40 @@ class _PostItemScreenState extends State<PostItemScreen> {
                       ),
                     ),
                     const TextInputName(name: "Price*"),
-                    SizedBox(
-                      height: 80,
-                      child: TextFormField(
-                        focusNode: _focusNodes[3],
-                        style: Theme.of(context).textTheme.titleSmall,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                                color: Colors.white54, width: 1),
-                          ),
-                          filled: true,
-                          prefixIcon: const Icon(
-                            FontAwesomeIcons.dollarSign,
-                            size: 15,
-                          ),
-                          prefixIconColor: Colors.white,
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12)),
-                          fillColor: Colors.grey[800],
-                          hintText: '100',
-                          hintStyle: Theme.of(context).textTheme.displaySmall,
-                          contentPadding: const EdgeInsets.all(10),
+                    TextFormField(
+                      focusNode: _focusNodes[3],
+                      style: Theme.of(context).textTheme.titleSmall,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide:
+                              const BorderSide(color: Colors.white54, width: 1),
                         ),
-                        onSaved: (newValue) {
-                          setState(() {
-                            itemPrice = double.parse(newValue!);
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Enter Item Price';
-                          }
-                          return null;
-                        },
+                        filled: true,
+                        prefixIcon: const Icon(
+                          FontAwesomeIcons.dollarSign,
+                          size: 15,
+                        ),
+                        prefixIconColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12)),
+                        fillColor: Colors.grey[800],
+                        hintText: '100',
+                        hintStyle: Theme.of(context).textTheme.displaySmall,
+                        contentPadding: const EdgeInsets.all(10),
                       ),
+                      onSaved: (newValue) {
+                        setState(() {
+                          itemPrice = double.parse(newValue!);
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'Please Enter Item Price';
+                        }
+                        return null;
+                      },
                     ),
                     const TextInputName(name: "Photos"),
                     SizedBox(

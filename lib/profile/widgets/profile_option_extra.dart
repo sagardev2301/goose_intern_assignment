@@ -41,7 +41,7 @@ class _ProfileOptionExtraState extends State<ProfileOptionExtra> {
               children: [
                 Text(
                   widget.title,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: Theme.of(context).textTheme.labelLarge,
                 ),
                 Text(
                   widget.description,

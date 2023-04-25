@@ -35,7 +35,7 @@ class ProfileOption extends StatelessWidget {
               ),
               Text(
                 title,
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
               const Spacer(),
               if (currentLanguageChoosed != null)

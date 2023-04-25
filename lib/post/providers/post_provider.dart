@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 
-
 class Post extends ChangeNotifier {
   final user = FirebaseAuth.instance.currentUser;
 
@@ -46,16 +45,17 @@ class Post extends ChangeNotifier {
           imageUrls.add(downloadUrl);
         }
       }
-      
+      // Upload the post Details to the location where the post details will be stored in Firebase Firestore
       await postDocRef.set({
         'title': title,
         'category': category,
         'description': description,
         'price': price,
-        'createdAt' : DateTime.now(),
+        'createdAt': DateTime.now(),
         'imagesUrl': imageUrls,
       });
 
+      // Get the reference 
       final userRef =
           FirebaseFirestore.instance.collection('users').doc(user!.uid);
       await userRef.update({

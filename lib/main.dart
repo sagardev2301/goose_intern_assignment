@@ -9,10 +9,10 @@ import 'package:goose_assignment/signin_signup/screens/sign_in.dart';
 import 'package:goose_assignment/signin_signup/screens/sign_in_options.dart';
 import 'package:goose_assignment/signin_signup/screens/sign_up.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -24,8 +24,14 @@ void main() async {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  Future<String?> getAuthToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? authToken = prefs.getString('authToken');
+    return authToken;
+  }
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Auth()),
@@ -54,6 +60,11 @@ class MyApp extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
+                ),
+                labelLarge: const TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 18,
                 ),
                 bodySmall: const TextStyle(
                   color: Colors.white,
