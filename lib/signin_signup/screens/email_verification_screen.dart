@@ -111,7 +111,6 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
               flex: 1,
               child: GestureDetector(
                 onTap: () {
-                  print(auth.isEmailVer);
                   if (auth.isEmailVer) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import '../../global/helpers/uiHelper.dart';
+import '../../global/helpers/ui_helper.dart';
 import '../../global/providers/auth.dart';
 import '../../global/widgets/custom_input_decoration.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -64,8 +64,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
             password: passwordController.text,
             context: context);
         navigator.pop();
-      } on Exception catch (e) {
-        print(e);
+      } on Exception catch (_) {
+        rethrow;
       } finally {
         UiHelper.removeSpinnerDialog(context);
       }
@@ -74,7 +74,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     var navigator = Navigator.of(context);
     return Scaffold(

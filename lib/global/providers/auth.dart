@@ -44,13 +44,10 @@ class Auth extends ChangeNotifier {
       String? msg;
       if (e.code == 'email-already-in-use') {
         msg = 'Email Already in use.';
-        print('Email Already in use.');
       } else if (e.code == 'invalid-email') {
         msg = 'Invalid Email';
-        print('Invalid Email.');
       } else if (e.code == 'weak-password') {
         msg = 'Weak Password';
-        print('Weak Password.');
       }
 
       if (msg!.isNotEmpty) {
@@ -82,13 +79,10 @@ class Auth extends ChangeNotifier {
       String? msg;
       if (e.code == 'user-not-found') {
         msg = 'No user found for that email.';
-        print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         msg = 'Wrong password';
-        print('Wrong password provided for that user.');
       } else if (e.code == 'invalid-email') {
         msg = 'Invalid Email.';
-        print("Invalid Email");
       }
 
       if (msg!.isNotEmpty) {

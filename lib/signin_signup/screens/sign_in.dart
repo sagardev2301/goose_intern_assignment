@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 
-import '../../global/helpers/uiHelper.dart';
+import '../../global/helpers/ui_helper.dart';
 import '../../global/providers/auth.dart';
 import '../../global/widgets/custom_input_decoration.dart';
 
@@ -44,8 +44,8 @@ class _SignInScreenState extends State<SignInScreen> {
         await Provider.of<Auth>(context, listen: false).signIn(
             email: email!, password: passwordController.text, context: context);
         navigator.pop();
-      } on Exception catch (e) {
-        print(e);
+      } on Exception catch (_) {
+        rethrow;
       } finally {
         UiHelper.removeSpinnerDialog(context);
       }
@@ -172,7 +172,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-                      userSignIn(context, navigator);
+                    userSignIn(context, navigator);
                   },
                   child: Center(
                     child: Container(

@@ -1,18 +1,15 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-
 import 'package:goose_assignment/profile/widgets/circle_avatar.dart';
 import 'package:goose_assignment/profile/widgets/profile_option_extra.dart';
 import 'package:goose_assignment/profile/widgets/profile_screen_option.dart';
-
 import '../../global/providers/auth.dart';
 
+
 class MainProfileScreen extends StatelessWidget {
-  const MainProfileScreen({
-    Key? key,
-  }) : super(key: key);
+  const MainProfileScreen({ Key? key,}) : super(key: key);
+
   static const routeName = '/main-profile-screen';
   
   @override
@@ -22,24 +19,20 @@ class MainProfileScreen extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CustomAvatar(),
+          const CustomAvatar(),
           ProfileOption(
             title: 'Personal Information',
             iconColor: const Color.fromARGB(255, 91, 185, 96),
             iconData: FontAwesomeIcons.solidUser,
             showArrow: true,
-            onPressed: () {
-              print('personalInfo');
-            },
+            onPressed: () {},
           ),
           ProfileOption(
             title: 'Change Password',
             iconColor: const Color.fromARGB(255, 160, 249, 164),
             iconData: FontAwesomeIcons.shieldHalved,
             showArrow: true,
-            onPressed: () {
-              print('password');
-            },
+            onPressed: () {},
           ),
           const ProfileOptionExtra(
               title: 'Push Notifications',
@@ -57,13 +50,12 @@ class MainProfileScreen extends StatelessWidget {
             iconData: FontAwesomeIcons.solidSquareMinus,
             currentLanguageChoosed: 'English (US)',
             showArrow: true,
-            onPressed: () {
-              print('language');
-            },
+            onPressed: () {},
           ),
           ProfileOption(
             title: 'Logout',
             iconColor: const Color.fromARGB(255, 239, 92, 69),
+            // ignore: deprecated_member_use
             iconData: FontAwesomeIcons.signOutAlt,
             showArrow: false,
             onPressed: () async {

@@ -24,19 +24,14 @@ class SignInOptions extends StatelessWidget {
               'Let\'s get you in',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
-            // Buttons for login using different platforms;
-            // TODO: Implement onpressed method
+            // Buttons for login using different platforms
             LogInChip(
               platform: 'Google',
-              onPressed: () {
-                print('login using google');
-              },
+              onPressed: () {},
             ),
             LogInChip(
               platform: 'Facebook',
-              onPressed: () {
-                print('login using facebook');
-              },
+              onPressed: () {},
             ),
             //Divider
             Container(

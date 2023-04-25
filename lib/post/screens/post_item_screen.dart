@@ -8,7 +8,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-import 'package:goose_assignment/global/helpers/uiHelper.dart';
+import 'package:goose_assignment/global/helpers/ui_helper.dart';
 
 import '../providers/post_provider.dart';
 import '../widgets/add_photos_button.dart';
@@ -146,6 +146,7 @@ class _PostItemScreenState extends State<PostItemScreen> {
                           if (value!.isEmpty) {
                             return 'Please Enter Item name';
                           }
+                          return null;
                         },
                         onFieldSubmitted: (_) => _focusNodes[1].requestFocus(),
                       ),
@@ -291,6 +292,7 @@ class _PostItemScreenState extends State<PostItemScreen> {
                           if (value!.isEmpty) {
                             return 'Please Enter Item Price';
                           }
+                          return null;
                         },
                       ),
                     ),
