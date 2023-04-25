@@ -67,7 +67,7 @@ class MainProfileScreen extends StatelessWidget {
             iconData: FontAwesomeIcons.signOutAlt,
             showArrow: false,
             onPressed: () async {
-              await Provider.of<Auth>(context, listen: false).signOut(context);
+              await Provider.of<Auth>(context, listen: false).signOut();
             },
           ),
         ],

@@ -23,9 +23,9 @@ class ProfileOption extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: SizedBox(
-        height: height * 0.095,
+        height: height * 0.098,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 15, 10, 15),
+          padding: const EdgeInsets.fromLTRB(10, 12, 10, 12),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

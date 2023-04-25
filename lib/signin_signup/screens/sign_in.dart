@@ -19,24 +19,49 @@ class _SignInScreenState extends State<SignInScreen> {
   late bool _isPasswordVisible;
   final TextEditingController passwordController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  late FocusNode _focusNode1, _focusNode2;
   @override
   void initState() {
+    _focusNode1 = FocusNode();
+    _focusNode2 = FocusNode();
     _isPasswordVisible = false;
     super.initState();
   }
 
   @override
   void dispose() {
+    _focusNode1.dispose();
+    _focusNode2.dispose();
     passwordController.dispose();
     super.dispose();
+  }
+
+  Future<void> userSignIn(BuildContext context, var navigator) async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      try {
+        UiHelper.showSpinnerDialog(context);
+        await Provider.of<Auth>(context, listen: false).signIn(
+            email: email!, password: passwordController.text, context: context);
+        navigator.pop();
+      } on Exception catch (e) {
+        print(e);
+      } finally {
+        UiHelper.removeSpinnerDialog(context);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final navigator = Navigator.of(context);
     return Scaffold(
       appBar: AppBar(
+        title: Text(
+          'SignIn',
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
@@ -64,6 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 6,
                 ),
                 TextFormField(
+                  focusNode: _focusNode1,
                   style: Theme.of(context).textTheme.labelSmall,
                   keyboardType: TextInputType.emailAddress,
                   decoration: customInputDecoration(context, 'abc@email.com'),
@@ -81,6 +107,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   onSaved: (String? value) {
                     email = value;
                   },
+                  onFieldSubmitted: (_) {
+                    _focusNode2.requestFocus();
+                  },
                 ),
                 const SizedBox(
                   height: 25,
@@ -93,11 +122,13 @@ class _SignInScreenState extends State<SignInScreen> {
                   height: 6,
                 ),
                 TextFormField(
+                  focusNode: _focusNode2,
                   style: Theme.of(context).textTheme.labelSmall,
                   controller: passwordController,
                   obscureText: !_isPasswordVisible,
                   obscuringCharacter: '*',
                   keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
                   decoration: InputDecoration(
                     hintText: '*************',
                     hintStyle: TextStyle(
@@ -132,26 +163,16 @@ class _SignInScreenState extends State<SignInScreen> {
                       },
                     ),
                   ),
-                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    userSignIn(context, navigator);
+                  },
                 ),
                 const SizedBox(
                   height: 50,
                 ),
                 GestureDetector(
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      try {
-                        UiHelper.showSpinnerDialog(context);
-                        await Provider.of<Auth>(context, listen: false).signIn(
-                            email: email!, password: passwordController.text);
-                        Navigator.of(context).pop();
-                      } on Exception catch (e) {
-                        print(e);
-                      } finally {
-                        UiHelper.removeSpinnerDialog(context);
-                      }
-                    }
+                  onTap: () {
+                      userSignIn(context, navigator);
                   },
                   child: Center(
                     child: Container(

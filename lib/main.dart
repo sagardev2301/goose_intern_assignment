@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:goose_assignment/global/providers/auth.dart';
 import 'package:goose_assignment/global/screens/navigation_screen.dart';
+import 'package:goose_assignment/post/providers/post_provider.dart';
 import 'package:goose_assignment/post/screens/post_item_screen.dart';
 import 'package:goose_assignment/signin_signup/screens/email_verification_screen.dart';
 import 'package:goose_assignment/signin_signup/screens/sign_in.dart';
@@ -11,8 +12,8 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
 
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Auth()),
+        ChangeNotifierProvider(create: (_) => Post()),
       ],
       child: MaterialApp(
         theme: ThemeData(

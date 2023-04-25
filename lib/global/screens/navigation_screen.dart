@@ -75,9 +75,7 @@ class _TabBarScreenState extends State<TabBarScreen>
           GeneralScreen(
             screenName: screenNames[tabController.index],
           ),
-          MainProfileScreen(
-
-          ),
+          const MainProfileScreen(),
         ],
       ),
       bottomNavigationBar: BottomBarFloating(

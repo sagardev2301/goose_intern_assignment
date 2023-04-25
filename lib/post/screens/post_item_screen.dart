@@ -1,10 +1,18 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:provider/provider.dart';
+
+import 'package:goose_assignment/global/helpers/uiHelper.dart';
+
+import '../providers/post_provider.dart';
+import '../widgets/add_photos_button.dart';
+import '../widgets/text_input_name.dart';
 
 class PostItemScreen extends StatefulWidget {
   const PostItemScreen({super.key});
@@ -15,7 +23,10 @@ class PostItemScreen extends StatefulWidget {
 
 class _PostItemScreenState extends State<PostItemScreen> {
   String? itemName, itemDescription, selectedItem;
-  int? itemPrice;
+  double? itemPrice;
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late List<FocusNode> _focusNodes;
+
   List<String> itemCategories = [
     "Electronics",
     "Vehicles",
@@ -24,10 +35,10 @@ class _PostItemScreenState extends State<PostItemScreen> {
     "Real Estate",
     "Sports",
   ];
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final ImagePicker picker = ImagePicker();
   List<XFile>? imagesFileList = [];
+
   Future<void> selectImages() async {
     List<XFile>? imagesSelected = await picker.pickMultiImage();
     setState(() {
@@ -44,8 +55,26 @@ class _PostItemScreenState extends State<PostItemScreen> {
   }
 
   @override
+  void initState() {
+    _focusNodes = List.generate(4, (index) => FocusNode());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (var focusNode in _focusNodes) {
+      focusNode.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
+    final postProvider = Provider.of<Post>(context);
+    var snackBar = ScaffoldMessenger.of(context);
+    var themeContext = Theme.of(context);
+    var navigator = Navigator.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Padding(
@@ -75,28 +104,25 @@ class _PostItemScreenState extends State<PostItemScreen> {
       ),
       bottomNavigationBar: null,
       body: KeyboardVisibilityBuilder(builder: (context, isKeyboardVisible) {
-        print(isKeyboardVisible);
         return Form(
           key: _formKey,
           child: Stack(children: [
             SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 10, 15, 0),
+                padding: const EdgeInsets.fromLTRB(15, 0, 15, 0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Title*",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(
-                      height: 8,
+                    const TextInputName(
+                      name: 'Title*',
                     ),
                     SizedBox(
-                      height: 50,
+                      height: 80,
                       child: TextFormField(
+                        focusNode: _focusNodes[0],
                         style: Theme.of(context).textTheme.titleSmall,
                         keyboardType: TextInputType.text,
+                        textInputAction: TextInputAction.next,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -121,21 +147,14 @@ class _PostItemScreenState extends State<PostItemScreen> {
                             return 'Please Enter Item name';
                           }
                         },
+                        onFieldSubmitted: (_) => _focusNodes[1].requestFocus(),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Category*",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    const TextInputName(name: "Category*"),
                     SizedBox(
-                      height: 50,
+                      height: 80,
                       child: DropdownButtonFormField2(
+                        focusNode: _focusNodes[1],
                         value: selectedItem,
                         hint: Text(
                           'Select Item Cateogry',
@@ -161,6 +180,12 @@ class _PostItemScreenState extends State<PostItemScreen> {
                           }
                           return null;
                         },
+                        onMenuStateChange: (isOpen) {
+                          setState(() {
+                            isOpen = !isOpen;
+                          });
+                          _focusNodes[2].requestFocus();
+                        },
                         onChanged: (value) {
                           setState(() {
                             selectedItem = value;
@@ -169,10 +194,6 @@ class _PostItemScreenState extends State<PostItemScreen> {
                         onSaved: (value) {
                           selectedItem = value.toString();
                         },
-                        // buttonStyleData: const ButtonStyleData(
-                        //   height: 30,
-                        //   padding: EdgeInsets.only(left: , right: 10),
-                        // ),
                         iconStyleData: const IconStyleData(
                           icon: Icon(
                             Icons.arrow_drop_down,
@@ -202,22 +223,15 @@ class _PostItemScreenState extends State<PostItemScreen> {
                             .toList(),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Description",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    const TextInputName(name: "Description"),
                     SizedBox(
                       height: 120,
                       child: TextFormField(
+                        focusNode: _focusNodes[2],
                         style: Theme.of(context).textTheme.titleSmall,
                         keyboardType: TextInputType.text,
-                        maxLines: 150,
+                        textInputAction: TextInputAction.next,
+                        maxLines: 20,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -239,23 +253,16 @@ class _PostItemScreenState extends State<PostItemScreen> {
                             itemDescription = newValue;
                           });
                         },
+                        onFieldSubmitted: (_) => _focusNodes[3].requestFocus(),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Price*",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(
-                      height: 8,
-                    ),
+                    const TextInputName(name: "Price*"),
                     SizedBox(
-                      height: 50,
+                      height: 80,
                       child: TextFormField(
+                        focusNode: _focusNodes[3],
                         style: Theme.of(context).textTheme.titleSmall,
-                        keyboardType: TextInputType.text,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -277,82 +284,22 @@ class _PostItemScreenState extends State<PostItemScreen> {
                         ),
                         onSaved: (newValue) {
                           setState(() {
-                            itemPrice = int.parse(newValue!);
+                            itemPrice = double.parse(newValue!);
                           });
                         },
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please Enter Item name';
+                            return 'Please Enter Item Price';
                           }
                         },
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Photos",
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
+                    const TextInputName(name: "Photos"),
                     SizedBox(
                       width: double.infinity,
                       child: Wrap(
                         children: imagesFileList!
-                            .map((item) => Container(
-                                  height: 100,
-                                  width: width * 0.30,
-                                  padding: const EdgeInsets.all(2),
-                                  child: Stack(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Container(
-                                          height: 95,
-                                          width: width * 0.28,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(12),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.file(
-                                              File(item.path),
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      const Positioned(
-                                        right: 0,
-                                        top: 0,
-                                        child: Icon(
-                                          FontAwesomeIcons.solidCircle,
-                                          size: 24,
-                                          fill: 1,
-                                          color: Colors.white,
-                                        ),
-                                      ),
-                                      Positioned(
-                                        right: -12,
-                                        top: -12,
-                                        child: IconButton(
-                                          onPressed: () => _deleteImage(
-                                              imagesFileList!.indexOf(item)),
-                                          icon: Icon(
-                                            FontAwesomeIcons.solidCircleXmark,
-                                            size: 25,
-                                            fill: 1,
-                                            color: Colors.grey[800],
-                                          ),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ))
+                            .map((item) => photoContainer(width, item))
                             .toList(),
                       ),
                     ),
@@ -361,34 +308,7 @@ class _PostItemScreenState extends State<PostItemScreen> {
                     ),
                     GestureDetector(
                       onTap: selectImages,
-                      child: Container(
-                        width: double.infinity,
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.grey[800],
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Center(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.add_box_rounded,
-                                size: 25,
-                                color: Colors.grey[400],
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                              Text(
-                                'Add photos',
-                                style: TextStyle(
-                                    fontSize: 15, color: Colors.grey[500]),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: const PhotosPickButton(),
                     ),
                     const SizedBox(
                       height: 90,
@@ -408,7 +328,47 @@ class _PostItemScreenState extends State<PostItemScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12)),
+                                  backgroundColor: Colors.grey[800],
+                                  title: Text(
+                                    'Do you want to discard post?',
+                                    style:
+                                        Theme.of(context).textTheme.titleMedium,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'Yes',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        'No',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
                         child: Container(
                           width: width * 0.42,
                           height: 50,
@@ -428,7 +388,41 @@ class _PostItemScreenState extends State<PostItemScreen> {
                         ),
                       ),
                       GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
+                            if (imagesFileList!.isEmpty) {
+                              snackBar.showSnackBar(SnackBar(
+                                behavior: SnackBarBehavior.floating,
+                                content: Text(
+                                  "Please select Images.",
+                                  style: themeContext.textTheme.bodySmall,
+                                ),
+                                duration: const Duration(milliseconds: 2000),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                backgroundColor: Colors.red,
+                              ));
+                              return;
+                            }
+                            try {
+                              UiHelper.showSpinnerDialog(context);
+                              await postProvider.postUpload(
+                                title: itemName!,
+                                category: selectedItem!,
+                                price: itemPrice!,
+                                description: itemDescription,
+                                images: imagesFileList,
+                              );
+                              navigator.pop();
+                            } on Exception catch (_) {
+                              rethrow;
+                            } finally {
+                              UiHelper.removeSpinnerDialog(context);
+                            }
+                          }
+                        },
                         child: Container(
                           width: width * 0.42,
                           height: 50,
@@ -450,6 +444,58 @@ class _PostItemScreenState extends State<PostItemScreen> {
           ]),
         );
       }),
+    );
+  }
+
+  Container photoContainer(double width, XFile item) {
+    return Container(
+      height: 100,
+      width: width * 0.30,
+      padding: const EdgeInsets.all(2),
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: Container(
+              height: 95,
+              width: width * 0.28,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.file(
+                  File(item.path),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          const Positioned(
+            right: 0,
+            top: 0,
+            child: Icon(
+              FontAwesomeIcons.solidCircle,
+              size: 24,
+              fill: 1,
+              color: Colors.white,
+            ),
+          ),
+          Positioned(
+            right: -12,
+            top: -12,
+            child: IconButton(
+              onPressed: () => _deleteImage(imagesFileList!.indexOf(item)),
+              icon: Icon(
+                FontAwesomeIcons.solidCircleXmark,
+                size: 25,
+                fill: 1,
+                color: Colors.grey[800],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:goose_assignment/global/screens/general_screen.dart';
+import 'package:goose_assignment/global/screens/navigation_screen.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-
 import '../../global/providers/auth.dart';
 
 class EmailVerifyScreen extends StatefulWidget {
@@ -17,57 +16,55 @@ class EmailVerifyScreen extends StatefulWidget {
 }
 
 class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
-  late final Timer _timer;
+  // late final Timer _timer;
 
-  @override
-  void didChangeDependencies() {
-    var auth = Provider.of<Auth>(context);
+  // @override
+  // void didChangeDependencies() {
+  //   var auth = Provider.of<Auth>(context);
 
-    _timer = Timer.periodic(const Duration(seconds: 3), (_) async {
-      await auth.user!.reload();
-      setState(() {
-        if (auth.user!.emailVerified) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Text(
-                "Email verified!",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              duration: const Duration(milliseconds: 1500),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              backgroundColor: Colors.green,
-            ),
-          );
-          Timer(const Duration(milliseconds: 1500), () {
-            _timer.cancel();
-            ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            Navigator.of(context).pushReplacementNamed(GeneralScreen.routeName);
-          });
-        }
-      });
-    });
-
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    if (_timer.isActive) {
-      _timer.cancel();
-    }
-
-    super.dispose();
-  }
+  //   _timer = Timer.periodic(const Duration(seconds: 2), (_) async {
+  //     await auth.user!.reload();
+  //     setState(() {
+  //       if (auth.user!.emailVerified) {
+  //         ScaffoldMessenger.of(context).showSnackBar(
+  //           SnackBar(
+  //             content: const Text(
+  //               "Email verified!",
+  //               style: TextStyle(
+  //                 color: Colors.white,
+  //               ),
+  //             ),
+  //             duration: const Duration(milliseconds: 1500),
+  //             shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(10),
+  //             ),
+  //             backgroundColor: Colors.green,
+  //           ),
+  //         );
+  //         Timer(const Duration(milliseconds: 1500), () {
+  //           _timer.cancel();
+  //           ScaffoldMessenger.of(context).removeCurrentSnackBar();
+  //           Navigator.of(context).pushReplacementNamed(TabBarScreen.routeName);
+  //         });
+  //       }
+  //     });
+  //   });
+  //   super.didChangeDependencies();
+  // }
+  // @override
+  // void dispose() {
+  //   if (_timer.isActive) {
+  //     _timer.cancel();
+  //   }
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
     var auth = Provider.of<Auth>(context);
     var snackBar = ScaffoldMessenger.of(context);
     var themeContext = Theme.of(context);
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Center(
         child: Column(
@@ -83,7 +80,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
                 children: [
                   Text(
                     "Confirm Your email address",
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(
                     height: 10,
@@ -108,6 +105,52 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
                     style: Theme.of(context).textTheme.bodySmall,
                   ),
                 ],
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: GestureDetector(
+                onTap: () {
+                  print(auth.isEmailVer);
+                  if (auth.isEmailVer) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: const Text(
+                          "Email verified!",
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                        duration: const Duration(milliseconds: 1500),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
+                    Future.delayed(
+                      const Duration(seconds: 2),
+                    );
+                    // ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                    Navigator.of(context)
+                        .pushReplacementNamed(TabBarScreen.routeName);
+                  }
+                },
+                child: Center(
+                  child: Container(
+                    width: width * 0.4,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Center(
+                      child: Text(
+                        'Verified',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
             GestureDetector(
