@@ -11,9 +11,9 @@
 
 <h2> SignIn Options, SignIn and SignUp Screen </h2>
 <div align = 'center'>
-<img src = "https://user-images.githubusercontent.com/92708917/234305180-7b450b0f-0928-48f3-abdb-c43a8f55d724.jpg" align = 'left' height = 450 width = 200 />
-<img src = "https://user-images.githubusercontent.com/92708917/234305100-1a306cd7-b4de-44bb-bdac-388b0062b03e.jpg" align =  'center' height = 450 width = 200 />
-<img src = "https://user-images.githubusercontent.com/92708917/234305089-0f17bf1b-384e-4971-bf32-84e20c5f437d.jpg" align = 'right' height = 450 width = 200 />
+<img src = "https://user-images.githubusercontent.com/92708917/234305180-7b450b0f-0928-48f3-abdb-c43a8f55d724.jpg" align = 'left' height = 450 width = 220 />
+<img src = "https://user-images.githubusercontent.com/92708917/234305100-1a306cd7-b4de-44bb-bdac-388b0062b03e.jpg" align =  'center' height = 450 width = 220 />
+<img src = "https://user-images.githubusercontent.com/92708917/234305089-0f17bf1b-384e-4971-bf32-84e20c5f437d.jpg" align = 'right' height = 450 width = 220 />
 </div>&nbsp;
 
 <h2> PostItem Screen with and without Images selected :</h2>
